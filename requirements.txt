@@ -1,0 +1,40 @@
+# ==============================================================
+# Isaac Sim 4.5.0 — Python 3.10 venv requirements
+# ROS2 Humble integration stack
+# Ubuntu 22.04 | RTX 30xx/40xx | CUDA 12.x
+# ==============================================================
+
+# --- Core Isaac Sim (from NVIDIA PyPI) ---
+# Installed via setup.sh, NOT directly from this file.
+# Listed here for reference / manual overrides only.
+# isaacsim[all,extscache]==4.5.0   # --extra-index-url https://pypi.nvidia.com
+
+# --- PyTorch (CUDA 12.1 build — matches CUDA toolkit on Ubuntu 22 + RTX 30/40) ---
+torch==2.5.1
+torchvision==0.20.1
+# index URL handled in setup.sh: https://download.pytorch.org/whl/cu121
+
+# --- NumPy (pinned — isaacsim 4.5 breaks with numpy 2.x) ---
+numpy==1.26.4
+
+# --- ROS2 / Bridge helpers ---
+# NOTE: rclpy and ros2 packages come from apt (ros-humble-*), NOT pip.
+# These are pure-Python utilities that work alongside the ROS2 install.
+transforms3d==0.4.2
+scipy==1.13.1
+
+# --- Synthetic data / replicator helpers ---
+omni-replicator-core          # bundled in isaacsim[all], listed for clarity
+Pillow==10.4.0
+opencv-python-headless==4.10.0.84
+
+# --- USD / Omniverse Python utilities ---
+# Included in isaacsim[all]. Listed here so devs know what's available.
+# pxr (USD) — do NOT pip install separately, comes with isaacsim
+
+# --- General research / data utils ---
+matplotlib==3.9.2
+pandas==2.2.3
+tqdm==4.66.5
+pyyaml==6.0.2
+rich==13.9.4          # pretty terminal output

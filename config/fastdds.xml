@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  fastdds.xml — FastDDS profile for Isaac Sim <-> ROS2 Humble
+  
+  Use when you see DDS discovery issues or topics not appearing.
+  Point to this file before launching Isaac Sim:
+    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/config/fastdds.xml
+  
+  This profile sets a larger history depth and disables multicast
+  (common fix for localhost-only Isaac Sim + ROS2 setups).
+-->
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+
+  <transport_descriptors>
+    <transport_descriptor>
+      <transport_id>UDPv4Transport</transport_id>
+      <type>UDPv4</type>
+      <!-- Increase buffer sizes for large sensor messages (pointclouds, images) -->
+      <sendBufferSize>4194304</sendBufferSize>
+      <receiveBufferSize>4194304</receiveBufferSize>
+    </transport_descriptor>
+  </transport_descriptors>
+
+  <participant profile_name="isaac_sim_participant" is_default_profile="true">
+    <rtps>
+      <userTransports>
+        <transport_id>UDPv4Transport</transport_id>
+      </userTransports>
+      <useBuiltinTransports>false</useBuiltinTransports>
+      <builtin>
+        <!-- Disable multicast discovery (avoids issues on some Ubuntu 22 setups) -->
+        <metatrafficMulticastLocatorList>
+          <locator/>
+        </metatrafficMulticastLocatorList>
+        <!-- Localhost-only discovery -->
+        <initialPeersList>
+          <locator>
+            <udpv4>
+              <address>127.0.0.1</address>
+            </udpv4>
+          </locator>
+        </initialPeersList>
+        <discovery_config>
+          <discoveryProtocol>SIMPLE</discoveryProtocol>
+          <use_SIMPLE_EndpointDiscoveryProtocol>true</use_SIMPLE_EndpointDiscoveryProtocol>
+          <use_SIMPLE_ParticipantDiscoveryProtocol>true</use_SIMPLE_ParticipantDiscoveryProtocol>
+        </discovery_config>
+      </builtin>
+    </rtps>
+  </participant>
+
+</profiles>
